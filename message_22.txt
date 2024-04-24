@@ -3,7 +3,7 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local Window = OrionLib:MakeWindow({Name = "Elysium.hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 local Tab = Window:MakeTab({
-    Name = "main",
+    Name = "Main",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
@@ -78,6 +78,73 @@ Tab1:AddSlider({
         end)
     end
 })
+
+--КИК РУКОЙ
+getgenv().CanKick = false;
+
+local function KickPlayer()
+    local player = game:GetService("Players").LocalPlayer
+
+    local function KickEnabler(character)
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        local ragdollTouchedHitbox = humanoidRootPart and humanoidRootPart:FindFirstChild("RagdollTouchedHitbox")
+        if ragdollTouchedHitbox then
+            ragdollTouchedHitbox.CanQuery = CanKick
+            ragdollTouchedHitbox.CanCollide = CanKick
+            ragdollTouchedHitbox.Size = CanKick and Vector3.new(4.875, 6.625, 3.75) or Vector3.new(2.875, 3.625, 1.75)
+        end
+    end
+
+    local function ApplyKickToPlayers()
+        for _, otherPlayer in ipairs(game:GetService("Players"):GetPlayers()) do
+            if otherPlayer ~= player and otherPlayer.Character then
+                KickEnabler(otherPlayer.Character)
+            end
+        end
+    end
+
+    local function CheckForPlayers()
+        while true do
+            ApplyKickToPlayers()
+            wait(0.01)
+        end
+    end
+
+    player.CharacterAdded:Connect(function(character)
+        KickEnabler(character)
+    end)
+
+    game:GetService("Players").PlayerAdded:Connect(function(newPlayer)
+        newPlayer.CharacterAdded:Connect(function(character)
+            if newPlayer ~= player then
+                KickEnabler(character)
+            end
+        end)
+    end)
+
+    if player.Character then
+        KickEnabler(player.Character)
+    end
+
+    spawn(CheckForPlayers)
+
+    if CanKick then
+        print("Kicking enabled")
+    else
+        print("Kicking disabled")
+    end
+end
+
+Tab1:AddToggle({
+    Name = "Kick Toggle",
+    Default = false,
+    Callback = function(Value)
+        CanKick = Value
+    end
+})
+
+KickPlayer()
+--КОНЕЦ
 
 local Section = Tab3:AddSection({
 	Name = "turn SpyChat on and off"
@@ -154,4 +221,5 @@ Tab3:AddToggle({
         chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position + UDim2.new(UDim.new(), chatFrame.ChatChannelParentFrame.Size.Y)
     end    
 })
-  
+
+
