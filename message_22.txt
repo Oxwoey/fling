@@ -136,7 +136,7 @@ local function KickPlayer()
 end
 
 Tab1:AddToggle({
-    Name = "Kick Toggle",
+    Name = "Kick with Line (Beta)",
     Default = false,
     Callback = function(Value)
         CanKick = Value
