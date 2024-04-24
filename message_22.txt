@@ -1,12 +1,17 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "fling vex and sup", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest", IntroText = false})
+local Window = OrionLib:MakeWindow({Name = "Elysium.hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-local Main = Window:MakeTab({
-    Name = "Main",
+local Tab = Window:MakeTab({
+    Name = "main",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
+
+local Section = Tab:AddSection({
+    Name = "script from Supra and Vex🦴"
+})
+
 
 local Tab1 = Window:MakeTab({
     Name = "Player",
@@ -14,6 +19,11 @@ local Tab1 = Window:MakeTab({
     PremiumOnly = false
 })
 
+local Tab2 = Window:MakeTab({
+    Name = "Blobman",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
 local Tab3 = Window:MakeTab({
     Name = "SpyChat",
@@ -21,15 +31,27 @@ local Tab3 = Window:MakeTab({
     PremiumOnly = false
 })
 
---ФУНКЦИИ
+Tab:AddButton({
+	Name = "Anti-Grab",
+	Callback = function()
+        while true do
+            local hui = game:GetService("Players").LocalPlayer
+            game:GetService("ReplicatedStorage").CharacterEvents.Struggle:FireServer(hui)
+            wait(0.1)
+            end
+  	end    
+})
+
+
+--functions
 Tab1:AddSlider({
-    Name = "Speed Players",
+    Name = "speed",
     Min = 16,
     Max = 100,
     Default = 5,
     Color = Color3.fromRGB(255,255,255),
     Increment = 1,
-    ValueName = "Speed Value",
+    ValueName = "speed",
     Callback = function(speed)
         HackedWalkSpeed = speed
 
@@ -55,6 +77,10 @@ Tab1:AddSlider({
             Hum.WalkSpeed = HackedWalkSpeed
         end)
     end
+})
+
+local Section = Tab3:AddSection({
+	Name = "turn SpyChat on and off"
 })
 
 Tab3:AddToggle({
@@ -128,4 +154,4 @@ Tab3:AddToggle({
         chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position + UDim2.new(UDim.new(), chatFrame.ChatChannelParentFrame.Size.Y)
     end    
 })
-
+  
