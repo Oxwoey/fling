@@ -146,6 +146,38 @@ Tab1:AddToggle({
 KickPlayer()
 --КОНЕЦ
 
+local grabbingScriptEnabled = false
+
+local function ToggleGrabbingScript(enabled)
+    grabbingScriptEnabled = enabled
+    local grabbingScript = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("GrabbingScript", true)
+    if grabbingScript then
+        grabbingScript.Disabled = not enabled
+    end
+end
+
+local function OnCharacterAdded(character)
+    if not grabbingScriptEnabled then
+        ToggleGrabbingScript(false)
+    end
+end
+
+if game.Players.LocalPlayer.Character then
+    OnCharacterAdded(game.Players.LocalPlayer.Character)
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(OnCharacterAdded)
+
+Tab1:AddToggle({
+    Name = "Control Grab Script",
+    Default = true,
+    Callback = function(enabled)
+        ToggleGrabbingScript(enabled)
+    end
+})
+
+
+
 local Section = Tab3:AddSection({
 	Name = "turn SpyChat on and off"
 })
@@ -221,5 +253,7 @@ Tab3:AddToggle({
         chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position + UDim2.new(UDim.new(), chatFrame.ChatChannelParentFrame.Size.Y)
     end    
 })
+
+
 
 
