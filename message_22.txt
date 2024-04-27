@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/BlizTBr/scripts/main/Orion%20X')))()
 
 local Window = OrionLib:MakeWindow({Name = "Elysium.hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
